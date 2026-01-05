@@ -1,7 +1,10 @@
 from transformers import StoppingCriteriaList, StoppingCriteria
 import openai
 import os
-openai.api_key = os.environ["OPENAI_API_KEY"]
+
+openai.api_key = "ollama"
+openai.api_base = "http://localhost:11434/v1"
+
 def generate_from_bloom(model, tokenizer, query, max_tokens):
     encoded_input = tokenizer(query, return_tensors='pt')
     stop = tokenizer("[PLAN END]", return_tensors='pt')
@@ -62,7 +65,7 @@ def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]"):
         text_response = response['choices'][0]['message']['content'] if not max_token_err_flag else ""
         return text_response.strip()        
     else:
-        try:
+        try:           
             response = openai.Completion.create(
                 model=engine,
                 prompt=query,
