@@ -202,16 +202,17 @@ class ResponseEvaluator:
         if 'plan_generalization' in task_name:
             self._set_task_params(instance_dir=self.data['generalized_instance_dir'])
         for instance_dict in tqdm(structured_output["instances"]):
+            #target_instances = set(self.specified_instances) if self.specified_instances else None
             if "llm_raw_response" in instance_dict:
                 if not instance_dict["llm_raw_response"]:
                     if self.verbose:
                         print(f"Instance {instance_dict['instance_id']} response not generated")
                     continue
                 if len(self.specified_instances) > 0:
-                    if instance_dict['instance_id'] not in specified_instances:
+                    if instance_dict['instance_id'] not in self.specified_instances:
                         continue
                     else:
-                        specified_instances.remove(instance_dict['instance_id'])      
+                        self.specified_instances.remove(instance_dict['instance_id'])      
                 
                 if self.verbose:
                     print(f"Evaluting instance {instance_dict['instance_id']}")

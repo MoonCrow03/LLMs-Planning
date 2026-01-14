@@ -1,0 +1,428 @@
+{
+    "task": "task_1_plan_generation_zero_shot_pddl",
+    "prompt_type": "oneshot",
+    "domain": "blocksworld",
+    "instances": [
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b c)\n(ontable c)\n(ontable d)\n(clear a)\n(clear b)\n(clear d)\n)\n(:goal\n(and\n(on c b))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 1,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 527,
+                    "completion_tokens": 17
+                },
+                "model": "llama3.1",
+                "time_taken": 72.3508791923523,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "(unstack c b) \n(pick-up c) \n(stack c b)",
+            "extracted_llm_plan": "(unstack c b)\n(pick-up c)\n(stack c b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a b)\n(ontable b)\n(ontable c)\n(on d c)\n(clear a)\n(clear d)\n)\n(:goal\n(and\n(on c a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 2,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 522,
+                    "completion_tokens": 28
+                },
+                "model": "llama3.1",
+                "time_taken": 9.636494874954224,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "(unstack d c) \n(pick-up c) \n(stack c a) \n(unstack a c) \n(stack a b)",
+            "extracted_llm_plan": "(unstack d c)\n(pick-up c)\n(stack c a)\n(unstack a c)\n(stack a b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b c)\n(on c d)\n(on d a)\n(clear b)\n)\n(:goal\n(and\n(on a c)\n(on d a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 3,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 521,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 10.577200174331665,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a c)\n(stack a c)\n(unstack d a)\n(stack d a)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a c)\n(stack a c)\n(unstack d a)\n(stack d a)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a c)\n(ontable b)\n(on c b)\n(on d a)\n(clear d)\n)\n(:goal\n(and\n(on a d)\n(on d b))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 4,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 521,
+                    "completion_tokens": 43
+                },
+                "model": "llama3.1",
+                "time_taken": 13.947067499160767,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a d)\n(stack a d)\n(put-down a)\n(pick-up d)\n(unstack d b)\n(stack d b)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a d)\n(stack a d)\n(put-down a)\n(pick-up d)\n(unstack d b)\n(stack d b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b a)\n(on c b)\n(ontable d)\n(clear c)\n(clear d)\n)\n(:goal\n(and\n(on b a)\n(on d c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 5,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 526,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 11.867626190185547,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack d c)\n(stack d a)\n(unstack b a)\n(stack b c)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack d c)\n(stack d a)\n(unstack b a)\n(stack b c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a c)\n(ontable b)\n(on c b)\n(on d a)\n(clear d)\n)\n(:goal\n(and\n(on a b)\n(on d c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 6,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 521,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 10.364426612854004,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a b)\n(stack a c)\n(unstack d c)\n(stack d b)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a b)\n(stack a c)\n(unstack d c)\n(stack d b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a d)\n(on b c)\n(ontable c)\n(on d b)\n(clear a)\n)\n(:goal\n(and\n(on a c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 7,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 517,
+                    "completion_tokens": 24
+                },
+                "model": "llama3.1",
+                "time_taken": 8.455517053604126,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a c)\n(stack a c)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a c)\n(stack a c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b c)\n(ontable c)\n(ontable d)\n(clear a)\n(clear b)\n(clear d)\n)\n(:goal\n(and\n(on a b)\n(on b d)\n(on d c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 8,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 535,
+                    "completion_tokens": 37
+                },
+                "model": "llama3.1",
+                "time_taken": 12.15179705619812,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(stack a b)\n(unstack d b)\n(put-down d)\n(stack d b)\n(stack b c)",
+            "extracted_llm_plan": "(pick-up a)\n(stack a b)\n(unstack d b)\n(put-down d)\n(stack d b)\n(stack b c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(ontable b)\n(on c d)\n(on d a)\n(clear b)\n(clear c)\n)\n(:goal\n(and\n(on a c)\n(on b a)\n(on d b))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 9,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 530,
+                    "completion_tokens": 48
+                },
+                "model": "llama3.1",
+                "time_taken": 14.05552077293396,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a d)\n(stack a c)\n(put-down a)\n(pick-up b)\n(unstack b a)\n(stack b c)\n(put-down b)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a d)\n(stack a c)\n(put-down a)\n(pick-up b)\n(unstack b a)\n(stack b c)\n(put-down b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(ontable b)\n(on c b)\n(on d a)\n(clear c)\n(clear d)\n)\n(:goal\n(and\n(on a d)\n(on b c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 10,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 526,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 9.909231185913086,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack d a)\n(stack d c)\n(unstack c b)\n(stack c a)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack d a)\n(stack d c)\n(unstack c b)\n(stack c a)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a d)\n(on b c)\n(ontable c)\n(ontable d)\n(clear a)\n(clear b)\n)\n(:goal\n(and\n(on b d)\n(on d a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 11,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 526,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 10.953451871871948,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up b)\n(unstack d c)\n(stack d a)\n(unstack b c)\n(stack b d)",
+            "extracted_llm_plan": "(pick-up b)\n(unstack d c)\n(stack d a)\n(unstack b c)\n(stack b d)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b d)\n(ontable c)\n(ontable d)\n(clear a)\n(clear b)\n(clear c)\n)\n(:goal\n(and\n(on b c)\n(on d a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 12,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 531,
+                    "completion_tokens": 42
+                },
+                "model": "llama3.1",
+                "time_taken": 13.59065580368042,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up b d)\n(unstack b c d)\n(stack b c)\n(pick-up a d)\n(unstack a d c)\n(stack a c)",
+            "extracted_llm_plan": "(pick-up b d)\n(unstack b c d)\n(stack b c)\n(pick-up a d)\n(unstack a d c)\n(stack a c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(ontable b)\n(on c b)\n(on d a)\n(clear c)\n(clear d)\n)\n(:goal\n(and\n(on a b))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 13,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 522,
+                    "completion_tokens": 17
+                },
+                "model": "llama3.1",
+                "time_taken": 7.340191125869751,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "(unstack a c) \n(pick-up c) \n(stack a c)",
+            "extracted_llm_plan": "(unstack a c)\n(pick-up c)\n(stack a c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a b)\n(on b c)\n(on c d)\n(ontable d)\n(clear a)\n)\n(:goal\n(and\n(on b c)\n(on c d)\n(on d a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 14,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 525,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 10.577506065368652,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up b)\n(unstack c b)\n(stack c d)\n(unstack a d)\n(stack a b)",
+            "extracted_llm_plan": "(pick-up b)\n(unstack c b)\n(stack c d)\n(unstack a d)\n(stack a b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b d)\n(on c b)\n(ontable d)\n(clear a)\n(clear c)\n)\n(:goal\n(and\n(on a c)\n(on b a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 15,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 526,
+                    "completion_tokens": 38
+                },
+                "model": "llama3.1",
+                "time_taken": 12.960623979568481,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(unstack a c)\n(stack a c)\n(pick-up b)\n(unstack b a)\n(stack b a)",
+            "extracted_llm_plan": "(pick-up a)\n(unstack a c)\n(stack a c)\n(pick-up b)\n(unstack b a)\n(stack b a)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(ontable b)\n(ontable c)\n(on d c)\n(clear a)\n(clear b)\n(clear d)\n)\n(:goal\n(and\n(on c b)\n(on d a))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 16,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 531,
+                    "completion_tokens": 32
+                },
+                "model": "llama3.1",
+                "time_taken": 11.606051683425903,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a)\n(stack a b)\n(unstack d c)\n(stack c b)\n(stack d a)",
+            "extracted_llm_plan": "(pick-up a)\n(stack a b)\n(unstack d c)\n(stack c b)\n(stack d a)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a d)\n(ontable b)\n(ontable c)\n(on d c)\n(clear a)\n(clear b)\n)\n(:goal\n(and\n(on b c)\n(on c d))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 17,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 526,
+                    "completion_tokens": 38
+                },
+                "model": "llama3.1",
+                "time_taken": 11.936817646026611,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up b)\n(stack b c)\n(unstack d c)\n(put-down d)\n(pick-up c)\n(stack c b)",
+            "extracted_llm_plan": "(pick-up b)\n(stack b c)\n(unstack d c)\n(put-down d)\n(pick-up c)\n(stack c b)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a c)\n(on b a)\n(ontable c)\n(on d b)\n(clear d)\n)\n(:goal\n(and\n(on b c)\n(on c d))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 18,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 521,
+                    "completion_tokens": 43
+                },
+                "model": "llama3.1",
+                "time_taken": 14.41548466682434,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up d)\n(unstack d b)\n(stack b c)\n(unstack c a)\n(stack a c)\n(pick-up c)\n(put-down c)",
+            "extracted_llm_plan": "(pick-up d)\n(unstack d b)\n(stack b c)\n(unstack c a)\n(stack a c)\n(pick-up c)\n(put-down c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(on a d)\n(ontable b)\n(on c a)\n(ontable d)\n(clear b)\n(clear c)\n)\n(:goal\n(and\n(on a b)\n(on c a)\n(on d c))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 19,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 530,
+                    "completion_tokens": 33
+                },
+                "model": "llama3.1",
+                "time_taken": 15.943422079086304,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up a d)\n(unstack a b)\n(stack a b)\n(stack c a)\n(stack d c)",
+            "extracted_llm_plan": "(pick-up a d)\n(unstack a b)\n(stack a b)\n(stack c a)\n(stack d c)",
+            "llm_correct": false
+        },
+        {
+            "query": "The following is a PDDL specification of a planning problem. The first part, under the heading [DOMAIN], is the domain file. The second part, under the heading [QUERY PROBLEM], is the problem file. Using this information, which is correct, and no further assumptions, find a plan which, when run from the specified initial state, satisfies the specified goal. Provide your answer as a sequence of actions in PDDL format. An action ACTION which acts on two objects OBJ1 and OBJ2 would be written (ACTION OBJ1 OBJ2). Do not provide anything else in your answer.\n[DOMAIN]\n(define (domain blocksworld-4ops)\n  (:requirements :strips)\n(:predicates (clear ?x)\n             (ontable ?x)\n             (handempty)\n             (holding ?x)\n             (on ?x ?y))\n\n(:action pick-up\n  :parameters (?ob)\n  :precondition (and (clear ?ob) (ontable ?ob) (handempty))\n  :effect (and (holding ?ob) (not (clear ?ob)) (not (ontable ?ob))\n               (not (handempty))))\n\n(:action put-down\n  :parameters  (?ob)\n  :precondition (holding ?ob)\n  :effect (and (clear ?ob) (handempty) (ontable ?ob)\n               (not (holding ?ob))))\n\n(:action stack\n  :parameters  (?ob ?underob)\n  :precondition (and (clear ?underob) (holding ?ob))\n  :effect (and (handempty) (clear ?ob) (on ?ob ?underob)\n               (not (clear ?underob)) (not (holding ?ob))))\n\n(:action unstack\n  :parameters  (?ob ?underob)\n  :precondition (and (on ?ob ?underob) (clear ?ob) (handempty))\n  :effect (and (holding ?ob) (clear ?underob)\n               (not (on ?ob ?underob)) (not (clear ?ob)) (not (handempty)))))\n\n[QUERY PROBLEM]\n(define(problem BW-rand-4)\n(:domain blocksworld-4ops)\n(:objects a b c d )\n(:init\n(handempty)\n(ontable a)\n(on b d)\n(on c a)\n(ontable d)\n(clear b)\n(clear c)\n)\n(:goal\n(and\n(on b a)\n(on c d)\n(on d b))\n)\n)\n)\n\n[PLAN]",
+            "instance_id": 20,
+            "ground_truth_plan": {},
+            "response_object": {
+                "usage": {
+                    "prompt_tokens": 530,
+                    "completion_tokens": 42
+                },
+                "model": "llama3.1",
+                "time_taken": 16.976055145263672,
+                "costs": {
+                    "input": 0,
+                    "output": 0,
+                    "total": 0
+                }
+            },
+            "llm_raw_response": "Here is the plan that satisfies the goal:\n\n(pick-up b d)\n(unstack c a d)\n(stack c b)\n(pick-up d b)\n(put-down d a)\n(stack d c)",
+            "extracted_llm_plan": "(pick-up b d)\n(unstack c a d)\n(stack c b)\n(pick-up d b)\n(put-down d a)\n(stack d c)",
+            "llm_correct": false
+        }
+    ],
+    "engine": "ollama_llama3.1"
+}

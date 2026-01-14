@@ -6,6 +6,7 @@ import os
 import time
 import anthropic
 import vertexai
+import ollama
 from vertexai.language_models import TextGenerationModel
 from google import genai
 from google.genai import types 
@@ -140,6 +141,39 @@ def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]", params
             return text_response.strip()
         else:
             assert model is not None
+    elif 'ollama' in engine:
+        model_name = engine.split('_')[1] if '_' in engine else engine
+        try:
+            s_time = time.time()
+            response = ollama.generate(
+                model=model_name,
+                prompt=query,
+                options={
+                    'num_predict': max_tokens,
+                    'temperature': params.get('temperature', 0.0),
+                    'stop': [stop]
+                }
+            )
+            e_time = time.time()
+            time_taken = e_time - s_time
+            
+            text_response = response['response']
+            
+            # Create a mock response object to satisfy your ResponseGenerator's cost tracking
+            formatted_response = {
+                "usage": {
+                    "prompt_tokens": response.get('prompt_eval_count', 0),
+                    "completion_tokens": response.get('eval_count', 0)
+                },
+                "model": model_name
+            }
+            
+            return text_response.strip(), formatted_response, time_taken
+            
+        except Exception as e:
+            print(f"[-]: Failed Ollama query execution: {e}")
+            return "", None, 0
+        
     elif '_chat' in engine:
         # gpt-4-turbo-2024-04-09
         eng = engine.split('_')[0]

@@ -31,6 +31,8 @@ class ResponseGenerator:
             self.model = self.get_qwen2_5_32b()
         elif self.engine == 'deepseek-r1':
             self.model = self.get_deepseek_r1()
+        elif 'ollama' in self.engine:
+            self.model = {'model_name': self.engine.split('_')[1] if '_' in self.engine else self.engine}
         elif 'finetuned' in self.engine:
             # print(self.engine)
             assert self.engine.split(':')[1] is not None
@@ -79,8 +81,8 @@ class ResponseGenerator:
         #                                              local_files_only=False, device_map='auto',
         #                                              max_memory=max_memory_mapping, trust_remote_code=True)
         # return {'model': model, 'tokenizer': tokenizer}
-
-    def get_per_instance_response(self, structured_output, i, output_json, failed_instances):
+        
+    def get_per_instance_response(self, structured_output, i, output_json, failed_instances, specified_instances):
         instance = None
         for j in structured_output["instances"]:
             if j["instance_id"] == i:
@@ -151,7 +153,7 @@ class ResponseGenerator:
             # maxworkers = 30
             for i in range(start, end+2, maxworkers):
                 with concurrent.futures.ThreadPoolExecutor(max_workers=maxworkers) as executor:
-                    futures = [executor.submit(self.get_per_instance_response, structured_output, j, output_json, failed_instances) for j in range(i, min(i+maxworkers, end+2))]
+                    futures = [executor.submit(self.get_per_instance_response, structured_output, j, output_json, failed_instances, specified_instances) for j in range(i, min(i+maxworkers, end+2))]
                     for future in concurrent.futures.as_completed(futures):
                         results.append(future.result())
             

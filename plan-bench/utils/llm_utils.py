@@ -1,9 +1,12 @@
 from transformers import StoppingCriteriaList, StoppingCriteria
-import openai
+from openai import OpenAI  # 1. New import
 import os
 
-openai.api_key = "ollama"
-openai.api_base = "http://localhost:11434/v1"
+# 2. Initialize the client with your Ollama settings
+client = OpenAI(
+    api_key="ollama",
+    base_url="http://localhost:11434/v1"
+)
 
 def generate_from_bloom(model, tokenizer, query, max_tokens):
     encoded_input = tokenizer(query, return_tensors='pt')
@@ -17,7 +20,6 @@ def generate_from_bloom(model, tokenizer, query, max_tokens):
 def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]"):
     max_token_err_flag = False
     if engine == 'bloom':
-
         if model:
             response = generate_from_bloom(model['model'], model['tokenizer'], query, max_tokens)
             response = response.replace(query, '')
@@ -30,10 +32,12 @@ def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]"):
             return resp_string
         else:
             assert model is not None
+    
     elif engine == 'finetuned':
         if model:
             try:
-                response = openai.Completion.create(
+                # 3. Updated Completion syntax
+                response = client.completions.create(
                     model=model['model'],
                     prompt=query,
                     temperature=0,
@@ -45,28 +49,34 @@ def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]"):
             except Exception as e:
                 max_token_err_flag = True
                 print("[-]: Failed GPT3 query execution: {}".format(e))
-            text_response = response["choices"][0]["text"] if not max_token_err_flag else ""
+            
+            # 4. Updated response extraction (dot notation)
+            text_response = response.choices[0].text if not max_token_err_flag else ""
             return text_response.strip()
         else:
             assert model is not None
+
     elif '_chat' in engine:
-        
         eng = engine.split('_')[0]
-        # print('chatmodels', eng)
         messages=[
-        {"role": "system", "content": "You are the planner assistant who comes up with correct plans."},
-        {"role": "user", "content": query}
+            {"role": "system", "content": "You are the planner assistant who comes up with correct plans."},
+            {"role": "user", "content": query}
         ]
         try:
-            response = openai.ChatCompletion.create(model=eng, messages=messages, temperature=0)
+            # 5. Updated ChatCompletion syntax
+            response = client.chat.completions.create(model=eng, messages=messages, temperature=0)
         except Exception as e:
             max_token_err_flag = True
             print("[-]: Failed GPT3 query execution: {}".format(e))
-        text_response = response['choices'][0]['message']['content'] if not max_token_err_flag else ""
+        
+        # 6. Updated response extraction (dot notation)
+        text_response = response.choices[0].message.content if not max_token_err_flag else ""
         return text_response.strip()        
+
     else:
         try:           
-            response = openai.Completion.create(
+            # 7. Updated legacy Completion syntax
+            response = client.completions.create(
                 model=engine,
                 prompt=query,
                 temperature=0,
@@ -79,5 +89,6 @@ def send_query(query, engine, max_tokens, model=None, stop="[STATEMENT]"):
             max_token_err_flag = True
             print("[-]: Failed GPT3 query execution: {}".format(e))
 
-        text_response = response["choices"][0]["text"] if not max_token_err_flag else ""
+        # 8. Updated response extraction (dot notation)
+        text_response = response.choices[0].text if not max_token_err_flag else ""
         return text_response.strip()
